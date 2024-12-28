@@ -1,0 +1,131 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define TOTAL_SEATS 10
+
+// Array to hold the reservation status of seats (1 for reserved, 0 for available)
+int seats[TOTAL_SEATS];
+
+// Function to initialize the seat availability
+void initializeSeats() {
+    for (int i = 0; i < TOTAL_SEATS; i++) {
+        seats[i] = 0;  // 0 means seat is available
+    }
+}
+
+// Function to display the seat availability
+void displaySeats() {
+    printf("\nSeat Availability:\n");
+    for (int i = 0; i < TOTAL_SEATS; i++) {
+        if (seats[i] == 0) {
+            printf("Seat %d: Available\n", i + 1);
+        } else {
+            printf("Seat %d: Reserved\n", i + 1);
+        }
+    }
+}
+
+// Function to book a seat
+void bookSeat() {
+    int seatNumber;
+    printf("Enter the seat number to book (1-%d): ", TOTAL_SEATS);
+    scanf("%d", &seatNumber);
+    
+    // Check if the seat number is valid
+    if (seatNumber < 1 || seatNumber > TOTAL_SEATS) {
+        printf("Invalid seat number.\n");
+        return;
+    }
+    
+    // Check if the seat is already reserved
+    if (seats[seatNumber - 1] == 1) {
+        printf("Sorry, Seat %d is already reserved.\n", seatNumber);
+    } else {
+        seats[seatNumber - 1] = 1;  // Reserve the seat
+        printf("Seat %d successfully booked!\n", seatNumber);
+    }
+}
+
+// Function to cancel a reservation
+void cancelReservation() {
+    int seatNumber;
+    printf("Enter the seat number to cancel (1-%d): ", TOTAL_SEATS);
+    scanf("%d", &seatNumber);
+    
+    // Check if the seat number is valid
+    if (seatNumber < 1 || seatNumber > TOTAL_SEATS) {
+        printf("Invalid seat number.\n");
+        return;
+    }
+    
+    // Check if the seat is reserved
+    if (seats[seatNumber - 1] == 0) {
+        printf("No reservation found for Seat %d.\n", seatNumber);
+    } else {
+        seats[seatNumber - 1] = 0;  // Cancel the reservation
+        printf("Reservation for Seat %d successfully canceled!\n", seatNumber);
+    }
+}
+
+// Function to generate a ticket for a reserved seat
+void generateTicket() {
+    int seatNumber;
+    printf("Enter the seat number to generate a ticket (1-%d): ", TOTAL_SEATS);
+    scanf("%d", &seatNumber);
+    
+    // Check if the seat number is valid
+    if (seatNumber < 1 || seatNumber > TOTAL_SEATS) {
+        printf("Invalid seat number.\n");
+        return;
+    }
+    
+    // Check if the seat is reserved
+    if (seats[seatNumber - 1] == 0) {
+        printf("No reservation found for Seat %d.\n", seatNumber);
+    } else {
+        printf("\n--- Ticket ---\n");
+        printf("Seat Number: %d\n", seatNumber);
+        printf("Reservation Status: Confirmed\n");
+        printf("Thank you for booking with us!\n");
+    }
+}
+
+int main() {
+    int choice;
+
+    // Initialize seat availability
+    initializeSeats();
+
+    do {
+        printf("\nBus Reservation System\n");
+        printf("1. Book a Seat\n");
+        printf("2. Cancel a Reservation\n");
+        printf("3. Display Seat Availability\n");
+        printf("4. Generate a Ticket\n");
+        printf("5. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                bookSeat();
+                break;
+            case 2:
+                cancelReservation();
+                break;
+            case 3:
+                displaySeats();
+                break;
+            case 4:
+                generateTicket();
+                break;
+            case 5:
+                printf("Exiting the system...\n");
+                break;
+            default:
+                printf("Invalid choice, please try again.\n");
+        }
+    } while (choice != 5);
+
+    return 0;
+}
